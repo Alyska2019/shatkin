@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пиццерия "Вкуснота"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 1px 2px #28a745;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #218838;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #28a745;
+            margin-right: 10px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .order-btn {
+            background: #dc3545;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .order-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍕 Пиццерия "Вкуснота"</h1>
+            <p>Создайте свой заказ</p>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" id="pizzaName" placeholder="Введите название пиццы">
+            <button onclick="addPizza()">Добавить</button>
+        </div>
+        
+        <div>
+            <p><strong>Ваш заказ:</strong></p>
+            <ul id="pizzaList">
+                <!-- Список пицц будет здесь -->
+            </ul> 
+            <button class="order-btn" onclick="confirmOrder()">✅ Оформить заказ</button>
+        </div>
+    </div>
+
+    <script>
+        function addPizza() {
+            const input = document.getElementById('pizzaName');
+            const pizzaName = input.value.trim();
+            
+            if (pizzaName === '') {
+                alert('Пожалуйста, введите название пиццы');
+                return;
+            }
+            
+            const list = document.getElementById('pizzaList');
+            const li = document.createElement('li');
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            
+            const label = document.createElement('label');
+            label.textContent = pizzaName;
+            
+            li.appendChild(checkbox);
+            li.appendChild(label);
+            
+            list.appendChild(li);
+            input.value = '';
+        }
+
+        function confirmOrder() {
+            const list = document.getElementById('pizzaList');
+            const selectedPizzas = [];
+
+            const checkboxes = list.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(checkbox => {
+                const label = checkbox.nextElementSibling;
+                selectedPizzas.push(label.textContent);
+            });
+
+            if (selectedPizzas.length === 0) {
+                alert('Пожалуйста, выберите хотя бы одну пиццу!');
+                return;
+            }
+ 
+            const message = '✅ Заказ принят! Ожидайте доставку.\n\nВаш заказ:\n' + 
+            selectedPizzas.join('\n');
+ 
+            alert(message);
+            list.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
